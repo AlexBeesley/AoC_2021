@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 public class Day1
 {
@@ -8,28 +9,46 @@ public class Day1
 	public int MeasurementCount { get; set; }
 	
 	static Random rnd = new Random();
-
+	string[] numbers = File.ReadAllLines(@"C:\Users\beesleyd\source\repos\AdventofCode\AdventofCode\day1input.txt");
 
 	public void SolarSweepMain()
 	{
+		// part 1
 		Console.WriteLine("Starting Sonar Sweep...");
-		Console.WriteLine($"{rnd.Next(199, 230)} [N/A - no previous measurement]");
-		for (int i = 1; i < 20; i++)
+        Console.WriteLine($"{numbers[0]} [N/A - no previous measurement]");
+        for (int i = 1; i < numbers.Length; i++)
         {
-			Thread.Sleep(200);
-			DepthValue = rnd.Next(199, 230);
-			if (checkIncreased(DepthValue))
+            DepthValue = Int32.Parse(numbers[i]);
+            if (checkIncreased(DepthValue))
             {
-				Console.WriteLine(DepthValue + "[Increased]");
-				MeasurementCount++;
+                Console.WriteLine(DepthValue + "[Increased]");
+                MeasurementCount++;
             }
             else
             {
-				Console.WriteLine(DepthValue + "[Decreased]");
+                Console.WriteLine(DepthValue + "[Decreased]");
             }
-			storePerviousDepthValue(DepthValue);
+            storePerviousDepthValue(DepthValue);
+        }
+        Console.WriteLine($"in this sweep, there was a total of {MeasurementCount} increases.");
+        storePerviousDepthValue(0);
+
+        // part 2
+        for (int i = 1; i < numbers.Length - 2; i++)
+		{
+			int current = (Int32.Parse(numbers[i - 1]) + Int32.Parse(numbers[i]) + Int32.Parse(numbers[i + 1]));
+			int next = (Int32.Parse(numbers[i]) + Int32.Parse(numbers[i + 1]) + Int32.Parse(numbers[i + 2]));
+			if (current < next)
+			{
+				Console.WriteLine(current + "[Increased]");
+				MeasurementCount++;
+			}
+			else
+			{
+				Console.WriteLine(current + "[Decreased]");
+			}
 		}
-		Console.WriteLine($"in this sweep, there was a total of {MeasurementCount} Increases.");
+		Console.WriteLine($"in this second sweep, there was a total of {MeasurementCount} sum increases.");
 	}
 
 	public bool checkIncreased(int currentDepthValue)
