@@ -9,7 +9,7 @@ public class Day1
 	public int MeasurementCount { get; set; }
 	
 	static Random rnd = new Random();
-	string[] numbers = File.ReadAllLines(@"C:\Users\beesleyd\source\repos\AdventofCode\AdventofCode\day1input.txt");
+	string[] numbers = File.ReadAllLines(@"C:\Users\beesleyd\source\repos\AdventofCode\AdventofCode\inputs\day1input.txt");
 
 	public void SolarSweepMain()
 	{
